@@ -1,6 +1,9 @@
 package Server.database;
 
 import Server.Server;
+import communications.ChatInfo;
+import communications.Message;
+import communications.User;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -11,8 +14,14 @@ import java.util.List;
  */
 public interface Database {
 
-    // add user to the database
-    void addUser(String username, String password);
+    // add user to the database return false if user exists
+    boolean addUser(String username, String password, byte[] salt);
+    
+    boolean ifExists(String username);
+    
+    boolean updateProfile(int userID, boolean[] edited, String[] fields);
+    
+    User getUser(int userID);
 
     // check user credentials
     boolean checkCredentials(String username, String password);
@@ -24,41 +33,53 @@ public interface Database {
     List<Integer> getChats(String username);
 
     // get the users last active chat
-    List<String> getActiveChat(String username);
+    List<Message> getActiveChat(String username);
 
-    void addUserToChat(int userID);
+    /// create delete method
 
-    void removeUserFromChat(int userID);
+    // possible delete from db entry here
+    // update history and resend if deleted
 
+    // create chat with these userIDs
+    int createChat(int[] userIDs);
 
     // get the ID of the users last active chat
     int getActiveChatID(String username);
 
+    // add chat history this method should delete all history for the chatID and appTarget and add the new history in its place
+    boolean addHistory(int chatID, int appTarget, List<Message> messages);
+
     // get chat history
-    List<String> getHistory(int chatID, int appTarget);
+    // Note this method has been changed we now need to get this specified number of messages from the server
+    List<Message> getHistory(int chatID, int appTarget, int numberOfMessages);
 
     // get usernames belonging to a specific chat
-    List<String> getChatUsernames(int chatID);
+    User [] getChatUsers(int chatID);
 
-    // get user IDs belonging to a specific chat
-    int []  getChatUserIDs(int chatID);
+    // get friends belonging to a user
+    List<User> getFriends(int userID);
 
     // add a message to the database
-    void setMessage(int chatID, int appTarget, String message, String meta);
+    boolean setMessage(int senderID, int chatID, int appTarget, String message, String meta);
 
     // get a single message from the database
     // TODO parameters are wrong discuss the needed parameters to get a specific message
-    String getMessage(int chatID, String appTarget, String message, String meta);
+    String getMessage(int chatID, int appTarget, String message, String meta);
 
     // Close connection
     void close();
 
-    // Getter for the database connection
-    Connection getConnection();
-
-    // potential method could be used for checking if a user is online.
-    boolean userActive(int ID);
-
-    // set a marker that the user is active
-    void setUserActive(String username);
+    boolean addFriend(int tooID, int fromID);
+    
+    List<ChatInfo> getUserChats(int userID);
+    
+    String getPasword(int userID);
+    
+    byte[] getSalt(int userID);
+    
+    boolean setPassword(String username, String password);
+    
+    boolean setSalt(String username, byte[] salt);
+    
+    User[] deleteChat(int chatID);
 }
