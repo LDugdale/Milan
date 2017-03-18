@@ -6,9 +6,6 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/out" type="java-resource" />
       <excludeFolder url="file://$MODULE_DIR$/src/Temp" />
-      <excludeFolder url="file://$MODULE_DIR$/src/applications" />
-      <excludeFolder url="file://$MODULE_DIR$/src/messenger" />
-      <excludeFolder url="file://$MODULE_DIR$/src/messengerUI" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
