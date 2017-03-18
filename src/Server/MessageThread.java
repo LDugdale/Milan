@@ -37,7 +37,7 @@ public class MessageThread extends Thread {
      */
     public Queue<Memo> getMessageQueue() {
 
-        return messageQueue;
+        return messageQueue;fg
     }
     
     public void addToBlockedChats(int chatID){
